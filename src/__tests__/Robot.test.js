@@ -33,4 +33,16 @@ describe("Robot class", () => {
     robot.moveRight();
     expect(robot.orientationId).toBe(0);
   });
+
+  test("moves from S to E when moveLeft is executed", () => {
+    const robot = new Robot(2, 3, "S");
+    robot.moveLeft();
+    expect(robot.orientationId).toBe(1);
+  });
+
+  test("moves from N to W when moveLeft is executed", () => {
+    const robot = new Robot(2, 3, "N");
+    robot.moveLeft();
+    expect(robot.orientationId).toBe(3);
+  });
 });

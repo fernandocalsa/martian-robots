@@ -17,6 +17,14 @@ class Robot {
     }
     this.orientationId = nextOrientationId;
   }
+
+  moveLeft() {
+    let nextOrientationId = this.orientationId - 1;
+    if (nextOrientationId < 0) {
+      nextOrientationId = orientations.length - 1;
+    }
+    this.orientationId = nextOrientationId;
+  }
 }
 
 module.exports = Robot;
