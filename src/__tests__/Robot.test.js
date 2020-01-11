@@ -5,14 +5,14 @@ describe("Robot class", () => {
     const robot = new Robot();
     expect(robot.x).toBe(0);
     expect(robot.y).toBe(0);
-    expect(robot.orientation).toBe("N");
+    expect(robot.orientationId).toBe(0);
   });
 
   test("accepts x, y and orientation as parameters", () => {
     const robot = new Robot(10, 20, "S");
     expect(robot.x).toBe(10);
     expect(robot.y).toBe(20);
-    expect(robot.orientation).toBe("S");
+    expect(robot.orientationId).toBe(2);
   });
 
   test("fails if orientation is not one of N E S W", () => {
@@ -20,5 +20,17 @@ describe("Robot class", () => {
       new Robot(10, 10, "T");
     }
     expect(createFailedRobot).toThrow();
+  });
+
+  test("moves from E to S when moveRight is executed", () => {
+    const robot = new Robot(2, 3, "E");
+    robot.moveRight();
+    expect(robot.orientationId).toBe(2);
+  });
+
+  test("moves from W to N when moveRight is executed", () => {
+    const robot = new Robot(2, 3, "W");
+    robot.moveRight();
+    expect(robot.orientationId).toBe(0);
   });
 });

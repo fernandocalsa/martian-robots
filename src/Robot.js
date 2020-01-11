@@ -7,7 +7,15 @@ class Robot {
     }
     this.x = x;
     this.y = y;
-    this.orientation = orientation;
+    this.orientationId = orientations.indexOf(orientation);
+  }
+
+  moveRight() {
+    let nextOrientationId = this.orientationId + 1;
+    if (nextOrientationId >= orientations.length) {
+      nextOrientationId = 0;
+    }
+    this.orientationId = nextOrientationId;
   }
 }
 
