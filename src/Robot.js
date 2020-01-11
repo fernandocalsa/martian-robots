@@ -25,6 +25,23 @@ class Robot {
     }
     this.orientationId = nextOrientationId;
   }
+
+  moveFront() {
+    switch (this.orientationId) {
+      case 0:
+        this.y++
+        break;
+      case 1:
+        this.x++;
+        break;
+      case 2:
+        this.y--;
+        break;
+      case 3:
+        this.x--;
+        break;
+    }
+  }
 }
 
 module.exports = Robot;

@@ -45,4 +45,32 @@ describe("Robot class", () => {
     robot.moveLeft();
     expect(robot.orientationId).toBe(3);
   });
+
+  test("moves from 2,2 to 2,3 when moveFront is executed and orientation is North", () => {
+    const robot = new Robot(2, 2, "N");
+    robot.moveFront();
+    expect(robot.x).toBe(2);
+    expect(robot.y).toBe(3);
+  });
+
+  test("moves from 2,2 to 3,2 when moveFront is executed and orientation is East", () => {
+    const robot = new Robot(2, 2, "E");
+    robot.moveFront();
+    expect(robot.x).toBe(3);
+    expect(robot.y).toBe(2);
+  });
+
+  test("moves from 2,2 to 2,1 when moveFront is executed and orientation is South", () => {
+    const robot = new Robot(2, 2, "S");
+    robot.moveFront();
+    expect(robot.x).toBe(2);
+    expect(robot.y).toBe(1);
+  });
+
+  test("moves from 2,2 to 1,2 when moveFront is executed and orientation is W", () => {
+    const robot = new Robot(2, 2, "W");
+    robot.moveFront();
+    expect(robot.x).toBe(1);
+    expect(robot.y).toBe(2);
+  });
 });
