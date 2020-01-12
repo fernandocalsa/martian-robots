@@ -18,6 +18,7 @@ describe("Robot class", () => {
     expect(robot.x).toBe(0);
     expect(robot.y).toBe(0);
     expect(robot.orientationId).toBe(0);
+    expect(robot.isLost).toBe(false);
   });
 
   test("accepts x, y and orientation as parameters", () => {
@@ -103,10 +104,23 @@ describe("Robot class", () => {
     const robot = new Robot(10, 5, "E", world);
     world.isInWorld.mockReturnValueOnce(false);
     robot.moveFront();
-    expect(robot.x).toBeNull();
-    expect(robot.y).toBeNull();
-    expect(robot.orientationId).toBeNull();
+    expect(robot.x).toBe(10);
+    expect(robot.y).toBe(5);
+    expect(robot.orientationId).toBe(1);
+    expect(robot.isLost).toBe(true);
     expect(world.registerScent).toHaveBeenCalledWith(10, 5);
+  });
+
+  test("lost robot does not move", () => {
+    const robot = new Robot(10, 5, "E", world);
+    world.isInWorld.mockReturnValueOnce(false);
+    robot.moveFront();
+    expect(robot.isLost).toBe(true);
+    expect(robot.x).toBe(10);
+    expect(robot.y).toBe(5);
+    robot.moveFront();
+    expect(robot.x).toBe(10);
+    expect(robot.y).toBe(5);
   });
 
   test("getCurrentPosition returns an object with the current position", () => {
@@ -115,15 +129,17 @@ describe("Robot class", () => {
       x: 2,
       y: 4,
       orientation: "E",
+      isLost: false,
     }));
 
     const robot2 = new Robot(2, 4, "E", world);
     world.isInWorld.mockReturnValueOnce(false);
     robot2.moveFront();
     expect(robot2.getCurrentPosition({
-      x: null,
-      y: null,
-      orientation: null,
+      x: 2,
+      y: 4,
+      orientation: "E",
+      isLost: true,
     }));
-  })
+  });
 });

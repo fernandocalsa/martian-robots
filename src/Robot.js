@@ -9,6 +9,7 @@ class Robot {
     this.y = y;
     this.orientationId = orientations.indexOf(orientation);
     this.world = world;
+    this.isLost = false;
   }
 
   moveRight() {
@@ -28,6 +29,9 @@ class Robot {
   }
 
   moveFront() {
+    if (this.isLost) {
+      return;
+    }
     let newX = this.x;
     let newY = this.y;
     switch (this.orientationId) {
@@ -50,9 +54,7 @@ class Robot {
 
     if (!this.world.isInWorld(newX, newY)) {
       this.world.registerScent(this.x, this.y);
-      this.x = null;
-      this.y = null;
-      this.orientationId = null;
+      this.isLost = true;
       return;
     }
     this.x = newX;
@@ -60,18 +62,11 @@ class Robot {
   }
 
   getCurrentPosition() {
-    if (this.x === null || this.y === null || this.orientationId === null) {
-      return {
-        x: null,
-        y: null,
-        orientation: null,
-      };
-    }
-
     return {
       x: this.x,
       y: this.y,
       orientation: orientations[this.orientationId],
+      isLost: this.isLost,
     };
   }
 }
