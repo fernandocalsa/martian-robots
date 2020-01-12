@@ -64,6 +64,15 @@ describe("Robot class", () => {
     expect(robot.orientationId).toBe(3);
   });
 
+  test("does not change orientation when robot is lost", () => {
+    const robot = new Robot(2, 3, "N", world);
+    robot.isLost = true;
+    robot.moveLeft();
+    expect(robot.orientationId).toBe(0);
+    robot.moveRight();
+    expect(robot.orientationId).toBe(0);
+  });
+
   test("moves from 2,2 to 2,3 when moveFront is executed and orientation is North", () => {
     const robot = new Robot(2, 2, "N", world);
     robot.moveFront();
