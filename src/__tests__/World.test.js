@@ -61,4 +61,37 @@ describe("World class", () => {
     expect(world.isInWorld(10, 31)).toBe(false);
     expect(world.isInWorld(-5, 10)).toBe(false);
   });
+
+  test("registers scent if the coordinates are in the edge", () => {
+    const world = new World(30, 30);
+    world.registerScent(30, 10);
+    expect(world.scents.length).toBe(1);
+    expect(world.scents).toEqual(expect.arrayContaining([{
+      x: 30,
+      y: 10,
+    }]));
+    world.registerScent(10, 30);
+    expect(world.scents.length).toBe(2);
+    expect(world.scents).toEqual(expect.arrayContaining([{
+      x: 10,
+      y: 30,
+    }]));
+  });
+
+  test("does not register the scent if the coordinate is not in the world edge", () => {
+    const world = new World(30, 30);
+    world.registerScent(10, 10);
+    expect(world.scents.length).toBe(0);
+
+    world.registerScent(30, 40);
+    expect(world.scents.length).toBe(0);
+  });
+
+  test("does not register the scent if it is already registered", () => {
+    const world = new World(20, 30);
+    world.registerScent(10, 30);
+    expect(world.scents.length).toBe(1);
+    world.registerScent(10, 30);
+    expect(world.scents.length).toBe(1);
+  });
 });
