@@ -22,7 +22,7 @@ class World {
     if (x !== this.limitX && y !== this.limitY) {
       return;
     }
-    const scentExists = !!this.scents.find(scent => (scent.x === x && scent.y === y));
+    const scentExists = this.scents.some(scent => (scent.x === x && scent.y === y));
     if (scentExists) {
       return;
     }
@@ -30,6 +30,10 @@ class World {
       x,
       y,
     });
+  }
+
+  canMove(x, y) {
+    return !this.scents.some(scent => (scent.x === x && scent.y === y));
   }
 }
 
