@@ -46,4 +46,19 @@ describe("World class", () => {
     expect(createFailedWorldX).toThrow();
     expect(createFailedWorldY).toThrow();
   });
+
+  test("returns true if the coordinates are in the limit of the world", () => {
+    const world = new World(20, 30);
+    expect(world.isInWorld(10, 10)).toBe(true);
+    expect(world.isInWorld(10, 30)).toBe(true);
+    expect(world.isInWorld(20, 10)).toBe(true);
+  });
+
+  test("returns false if the coordinates are not in the world limit", () => {
+    const world = new World(20, 30);
+    expect(world.isInWorld(40, 40)).toBe(false);
+    expect(world.isInWorld(21, 10)).toBe(false);
+    expect(world.isInWorld(10, 31)).toBe(false);
+    expect(world.isInWorld(-5, 10)).toBe(false);
+  });
 });
