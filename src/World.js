@@ -7,6 +7,13 @@ class World {
     this.limitY = limitY;
     this.scents = [];
   }
+
+  isInWorld(x, y) {
+    if (x >= 0 && x <= this.limitX && y >= 0 && y <= this.limitY) {
+      return true;
+    }
+    return false;
+  }
 }
 
 module.exports = World;
