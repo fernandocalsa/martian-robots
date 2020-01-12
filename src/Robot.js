@@ -28,20 +28,35 @@ class Robot {
   }
 
   moveFront() {
+    let newX = this.x;
+    let newY = this.y;
     switch (this.orientationId) {
       case 0:
-        this.y++
+        newY++
         break;
       case 1:
-        this.x++;
+        newX++;
         break;
       case 2:
-        this.y--;
+        newY--;
         break;
       case 3:
-        this.x--;
+        newX--;
         break;
     }
+    if (!this.world.canMove(newX, newY)) {
+      return;
+    }
+
+    if (!this.world.isInWorld(newX, newY)) {
+      this.world.registerScent(this.x, this.y);
+      this.x = null;
+      this.y = null;
+      this.orientationId = null;
+      return;
+    }
+    this.x = newX;
+    this.y = newY;
   }
 }
 

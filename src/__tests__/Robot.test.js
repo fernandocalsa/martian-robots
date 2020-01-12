@@ -1,8 +1,18 @@
 const Robot = require("../Robot");
 
-const world = {};
+const world = {
+  canMove: jest.fn().mockReturnValue(true),
+  isInWorld: jest.fn().mockReturnValue(true),
+  registerScent: jest.fn(),
+};
 
 describe("Robot class", () => {
+  beforeEach(() => {
+    world.canMove.mockClear();
+    world.isInWorld.mockClear();
+    world.registerScent.mockClear();
+  });
+
   test("should create a robot with default start coordinates", () => {
     const robot = new Robot(undefined, undefined, undefined, world);
     expect(robot.x).toBe(0);
@@ -79,5 +89,23 @@ describe("Robot class", () => {
     robot.moveFront();
     expect(robot.x).toBe(1);
     expect(robot.y).toBe(2);
+  });
+
+  test("does not move if it can not move", () => {
+    const robot = new Robot(2, 2, "W", world);
+    world.canMove.mockReturnValueOnce(false);
+    robot.moveFront();
+    expect(robot.x).toBe(2);
+    expect(robot.y).toBe(2);
+  });
+
+  test("set robot to lost state if new coordinates are not in the world", () => {
+    const robot = new Robot(10, 5, "E", world);
+    world.isInWorld.mockReturnValueOnce(false);
+    robot.moveFront();
+    expect(robot.x).toBeNull();
+    expect(robot.y).toBeNull();
+    expect(robot.orientationId).toBeNull();
+    expect(world.registerScent).toHaveBeenCalledWith(10, 5);
   });
 });
