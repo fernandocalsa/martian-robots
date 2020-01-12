@@ -94,4 +94,20 @@ describe("World class", () => {
     world.registerScent(10, 30);
     expect(world.scents.length).toBe(1);
   });
+
+  test("canMove returns true if the coordinats are not in the scents", () => {
+    const world = new World(20, 30);
+    world.registerScent(10, 30);
+
+    expect(world.canMove(15, 30)).toBe(true);
+    expect(world.canMove(20, 10)).toBe(true);
+  });
+
+  test("canMove returns false if the coordinats are in the scents", () => {
+    const world = new World(20, 30);
+
+    expect(world.canMove(15, 30)).toBe(true);
+    world.registerScent(15, 30);
+    expect(world.canMove(15, 30)).toBe(false);
+  });
 });
