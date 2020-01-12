@@ -58,6 +58,22 @@ class Robot {
     this.x = newX;
     this.y = newY;
   }
+
+  getCurrentPosition() {
+    if (this.x === null || this.y === null || this.orientationId === null) {
+      return {
+        x: null,
+        y: null,
+        orientation: null,
+      };
+    }
+
+    return {
+      x: this.x,
+      y: this.y,
+      orientation: orientations[this.orientationId],
+    };
+  }
 }
 
 module.exports = Robot;

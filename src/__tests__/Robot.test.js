@@ -108,4 +108,22 @@ describe("Robot class", () => {
     expect(robot.orientationId).toBeNull();
     expect(world.registerScent).toHaveBeenCalledWith(10, 5);
   });
+
+  test("getCurrentPosition returns an object with the current position", () => {
+    const robot1 = new Robot(2, 4, "E", world);
+    expect(robot1.getCurrentPosition({
+      x: 2,
+      y: 4,
+      orientation: "E",
+    }));
+
+    const robot2 = new Robot(2, 4, "E", world);
+    world.isInWorld.mockReturnValueOnce(false);
+    robot2.moveFront();
+    expect(robot2.getCurrentPosition({
+      x: null,
+      y: null,
+      orientation: null,
+    }));
+  })
 });
