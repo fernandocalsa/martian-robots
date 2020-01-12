@@ -1,14 +1,14 @@
 const Robot = require("../Robot");
 
 const world = {
-  canMove: jest.fn().mockReturnValue(true),
+  scentExists: jest.fn().mockReturnValue(false),
   isInWorld: jest.fn().mockReturnValue(true),
   registerScent: jest.fn(),
 };
 
 describe("Robot class", () => {
   beforeEach(() => {
-    world.canMove.mockClear();
+    world.scentExists.mockClear();
     world.isInWorld.mockClear();
     world.registerScent.mockClear();
   });
@@ -101,10 +101,13 @@ describe("Robot class", () => {
     expect(robot.y).toBe(2);
   });
 
-  test("does not move if it can not move", () => {
-    const robot = new Robot(2, 2, "W", world);
-    world.canMove.mockReturnValueOnce(false);
+  test("does not move if is moving outside world but there is a scent in the world", () => {
+    const robot = new Robot(2, 2, "E", world);
+    world.isInWorld.mockReturnValueOnce(false);
+    world.scentExists.mockReturnValueOnce(true);
     robot.moveFront();
+    expect(world.isInWorld).toHaveBeenCalledWith(3, 2);
+    expect(world.scentExists).toHaveBeenCalledWith(2, 2);
     expect(robot.x).toBe(2);
     expect(robot.y).toBe(2);
   });
