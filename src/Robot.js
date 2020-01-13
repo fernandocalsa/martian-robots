@@ -13,6 +13,9 @@ class Robot {
   }
 
   moveRight() {
+    if (this.isLost) {
+      return;
+    }
     let nextOrientationId = this.orientationId + 1;
     if (nextOrientationId >= orientations.length) {
       nextOrientationId = 0;
@@ -21,6 +24,9 @@ class Robot {
   }
 
   moveLeft() {
+    if (this.isLost) {
+      return;
+    }
     let nextOrientationId = this.orientationId - 1;
     if (nextOrientationId < 0) {
       nextOrientationId = orientations.length - 1;
@@ -48,11 +54,11 @@ class Robot {
         newX--;
         break;
     }
-    if (!this.world.canMove(newX, newY)) {
-      return;
-    }
 
     if (!this.world.isInWorld(newX, newY)) {
+      if (this.world.scentExists(this.x, this.y)) {
+        return;
+      }
       this.world.registerScent(this.x, this.y);
       this.isLost = true;
       return;
