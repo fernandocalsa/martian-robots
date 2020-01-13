@@ -2,12 +2,12 @@ jest.mock('fs');
 const fs = require("fs");
 const runFromFile = require("../run-from-file");
 
-jest.mock("../World", () => jest.fn(function(x, y) {
+jest.mock("../models/World", () => jest.fn(function(x, y) {
   this.limitX = x;
   this.limitY = y;
 }));
 
-jest.mock("../Robot", () => jest.fn(function(x, y, orientation, world) {
+jest.mock("../models/Robot", () => jest.fn(function(x, y, orientation, world) {
   this.x = x;
   this.y = y;
   this.orientation = orientation;
@@ -21,8 +21,8 @@ jest.mock("../execute-robots-steps", () => jest.fn().mockReturnValue([{
   isLost: true,
 }]));
 
-const World = require("../World");
-const Robot = require("../Robot");
+const World = require("../models/World");
+const Robot = require("../models/Robot");
 const executeRobotsSteps = require("../execute-robots-steps");
 
 describe("run from file", () => {

@@ -1,6 +1,6 @@
 const fs = require('fs');
-const World = require("./World");
-const Robot = require("./Robot");
+const World = require("./models/World");
+const Robot = require("./models/Robot");
 const executeRobotsSteps = require("./execute-robots-steps");
 
 function runFromFile(filePath) {
