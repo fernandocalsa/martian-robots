@@ -8,8 +8,5 @@ if (!path) {
 }
 
 runFromFile(path).then(results => {
-  const resultString = results.map(({x, y, orientation, isLost}) => (
-    `${x} ${y} ${orientation} ${isLost ? "LOST" : ""}`
-  )).join("\n");
-  console.log(resultString)
+  console.log(results.join("\n"))
 });

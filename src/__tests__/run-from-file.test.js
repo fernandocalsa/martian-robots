@@ -1,29 +1,10 @@
-jest.mock('fs');
-const fs = require("fs");
 const runFromFile = require("../run-from-file");
-
-jest.mock("../models/World", () => jest.fn(function(x, y) {
-  this.limitX = x;
-  this.limitY = y;
-}));
-
-jest.mock("../models/Robot", () => jest.fn(function(x, y, orientation, world) {
-  this.x = x;
-  this.y = y;
-  this.orientation = orientation;
-  this.world = world;
-}));
-
-jest.mock("../execute-robots-steps", () => jest.fn().mockReturnValue([{
-  x: 1,
-  y: 3,
-  orientation: "E",
-  isLost: true,
-}]));
-
+jest.mock('fs');
+jest.mock("../models/World");
+jest.mock("../models/Robot");
+const fs = require("fs");
 const World = require("../models/World");
 const Robot = require("../models/Robot");
-const executeRobotsSteps = require("../execute-robots-steps");
 
 describe("run from file", () => {
   beforeEach(() => {
@@ -37,41 +18,29 @@ describe("run from file", () => {
     const result = await runFromFile("file");
     expect(World).toHaveBeenCalledWith(10, 20);
     expect(Robot).toHaveBeenCalledWith(1, 3, "N", expect.any(World));
-    expect(executeRobotsSteps).toHaveBeenCalledWith(
-      [{
-        robot: expect.any(Robot),
-        steps: ["F", "R", "R", "L", "L", "F"],
-      }],
-      expect.any(World),
-    );
-    expect(result).toEqual([{
-      x: 1,
-      y: 3,
-      orientation: "E",
-      isLost: true,
-    }]);
+    expect(Robot._executeSteps).toHaveBeenCalledWith(["F", "R", "R", "L", "L", "F"]);
+    expect(result).toEqual(["10 10 N"]);
   });
 
   test("Reads file and execute all robots steps", async () => {
     fs.__setMockFiles({
       file: "10 20\n1 3 N\nFRRLLF\n2 5 E\nRLFF",
     });
+    Robot._getCurrentPosition.mockReturnValueOnce({
+      x: 2,
+      y: 2,
+      orientation: "S",
+      isLost: true,
+    });
     const result = await runFromFile("file");
     expect(World).toHaveBeenCalledWith(10, 20);
     expect(Robot).toHaveBeenCalledWith(1, 3, "N", expect.any(World));
     expect(Robot).toHaveBeenCalledWith(2, 5, "E", expect.any(World));
-    expect(executeRobotsSteps).toHaveBeenCalledWith(
-      [
-        {
-          robot: expect.any(Robot),
-          steps: ["F", "R", "R", "L", "L", "F"],
-        },
-        {
-          robot: expect.any(Robot),
-          steps: ["R", "L", "F", "F"],
-        }
-      ],
-      expect.any(World),
-    );
+    expect(Robot._executeSteps).toHaveBeenNthCalledWith(1, ["F", "R", "R", "L", "L", "F"]);
+    expect(Robot._executeSteps).toHaveBeenNthCalledWith(2, ["R", "L", "F", "F"]);
+    expect(result).toEqual([
+      "2 2 S LOST",
+      "10 10 N",
+    ]);
   });
 });
