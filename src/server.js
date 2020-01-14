@@ -4,7 +4,7 @@ const bodyParser = require("body-parser")
 
 const postRobots = require("./controllers/post-robots");
 
-const API_PORT = process.env.API_PORT || 8080;
+const API_PORT = process.env.PORT || 8080;
 const app = express();
 app.use(bodyParser.json());
 
