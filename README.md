@@ -16,6 +16,8 @@ This will create a docker image `martian-robots` and then a container.
 
 With either of the options you'll have access to the API through http://localhost:8080
 
+There is a deployed version: http://martian-robots.herokuapp.com/
+
 There is only one endpoint:
 
 ### POST /
