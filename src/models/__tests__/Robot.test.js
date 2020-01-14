@@ -154,4 +154,15 @@ describe("Robot class", () => {
       isLost: true,
     }));
   });
+
+  test("executeSteps execute the steps", () => {
+    const robot = new Robot(2, 4, "E", world);
+    robot.moveRight = jest.fn();
+    robot.moveLeft = jest.fn();
+    robot.moveFront = jest.fn();
+    robot.executeSteps(["F", "R", "L", "R"]);
+    expect(robot.moveFront).toHaveBeenCalledTimes(1);
+    expect(robot.moveRight).toHaveBeenCalledTimes(2);
+    expect(robot.moveLeft).toHaveBeenCalledTimes(1);
+  });
 });
