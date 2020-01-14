@@ -4,7 +4,8 @@
   "description": "Move robots around Mars",
   "main": "src/index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start": "node src/server.js"
   },
   "author": "Fernando Calvo",
   "license": "ISC",
