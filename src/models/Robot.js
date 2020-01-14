@@ -75,6 +75,22 @@ class Robot {
       isLost: this.isLost,
     };
   }
+
+  executeSteps(steps) {
+    steps.forEach(step => {
+      switch (step) {
+        case "R":
+          this.moveRight()
+          break;
+        case "L":
+          this.moveLeft();
+          break;
+        case "F":
+          this.moveFront();
+          break;
+      }
+    });
+  }
 }
 
 module.exports = Robot;
